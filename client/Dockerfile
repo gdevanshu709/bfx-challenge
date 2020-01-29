@@ -10,4 +10,8 @@ RUN apk add --no-cache make bash
 ARG NODE_ENV=development
 ENV NODE_ENV $NODE_ENV
 
-RUN npm i -g grenache-grape
+COPY ./package.json ./
+
+RUN npm install
+
+COPY . .

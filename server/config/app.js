@@ -51,8 +51,5 @@ const config = convict({
   }
 })
 
-logger.info('Starting service with', config.toString())
-
 config.validate({ allowed: 'strict' })
-
 module.exports = config

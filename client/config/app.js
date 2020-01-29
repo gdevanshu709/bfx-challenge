@@ -48,8 +48,5 @@ const config = convict({
   }
 })
 
-logger.info('Starting client with', config.toString())
-
 config.validate({ allowed: 'strict' })
-
 module.exports = config

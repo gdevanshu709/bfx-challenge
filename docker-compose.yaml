@@ -48,3 +48,47 @@ services:
     ports:
       - 20003:20003
       - 50001:50001
+
+  worker-01:
+    build:
+      context: server
+      args:
+        - NODE_ENV=development
+    command: ["node", "./server.js"]
+    restart: always
+    network_mode: host
+    env_file:
+      - ./envs/worker-01.env
+
+  worker-02:
+    build:
+      context: server
+      args:
+        - NODE_ENV=development
+    command: ["node", "./server.js"]
+    restart: always
+    network_mode: host
+    env_file:
+      - ./envs/worker-02.env
+
+  client-01:
+    build:
+      context: client
+      args:
+        - NODE_ENV=development
+    command: ["node", "./askClient.js"]
+    restart: always
+    network_mode: host
+    env_file:
+      - ./envs/client-01.env
+
+  client-02:
+    build:
+      context: client
+      args:
+        - NODE_ENV=development
+    command: ["node", "./bidClient.js"]
+    restart: always
+    network_mode: host
+    env_file:
+      - ./envs/client-02.env
