@@ -1,6 +1,7 @@
 const { PeerRPCClient } = require('grenache-nodejs-http')
 const Link = require('grenache-nodejs-link')
 const config = require('./config/app')
+const logger = require('./lib/logger')
 
 const link = new Link({
   grape: config.get('grape_address')
@@ -29,9 +30,9 @@ async function start() {
 
     try {
       const response = await sendOrder(order)
-      console.log('Order has been sent to worker', response.order_id)
+      logger.info('Order has been sent to worker', response.order_id)
     } catch (error) {
-      console.error('Error in sending order to worker', error)
+      logger.error('Error in sending order to worker', error)
     }
 
     await sleep(5000) // wait for 5 seconds before sending other request
