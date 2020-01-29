@@ -9,6 +9,14 @@ const SUPPORTED_STATES = {
   SYNC_BLOCK: 'SYNC_BLOCK'
 }
 
+/**
+ * Utility function to share state with other worker
+ *
+ * @date 2020-01-29
+ * @param {SUPPORTED_STATES} type supported request types
+ * @param {Object} state data that needs to be shared
+ * @returns {Promise}
+ */
 async function shareState (type, state) {
   return new Promise((resolve, reject) => {
     client.request(config.get('neighbor.name'), { type, state }, { timeout: 10000 }, (err, data) => {

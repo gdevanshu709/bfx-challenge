@@ -4,6 +4,16 @@ const logger = require('../lib/logger')
 const { SUPPORTED_STATES } = require('./state')
 const blocks = require('./block')
 
+/**
+ * Generic handler to handle all kinds of requests received by Worker
+ *
+ * @date 2020-01-29
+ * @param {any} rid
+ * @param {any} key
+ * @param {Object} payload
+ * @param {Handler} handler
+ * @returns {Response}
+ */
 async function processRequest(rid, key, payload, handler) {
   logger.info('Received request', payload)
 

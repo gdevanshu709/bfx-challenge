@@ -2,10 +2,16 @@ const { Block } = require('./blocks')
 const config = require('../../config/app')
 
 class BlockChain {
-  constructor () {
+  constructor() {
     this.chain = []
   }
 
+  /**
+   * Utility function to create a block containing all the transaction
+   *
+   * @date 2020-01-29
+   * @param {Array} data: array of transaction
+   */
   commitTransactions(data) {
     let index = this.chain.length
     let prevHash =
@@ -15,25 +21,35 @@ class BlockChain {
     return block
   }
 
+  /**
+   * Utility function to add/clone block in the blockchain
+   *
+   * @date 2020-01-29
+   * @param {Block} block
+   */
   addBlock(block) {
     this.chain.push(block)
     return block
   }
 
-  blockLengths () {
+  /**
+   * Returns length of current blockchain
+   *
+   * @date 2020-01-29
+   * @returns {number} length of blockchain
+   */
+  blockLengths() {
     return this.chain.length
   }
 
-  lastBLock () {
+  /**
+   * Returns last block that exists in the blockchain
+   *
+   * @date 2020-01-29
+   * @returns {Block} lastBlock
+   */
+  lastBLock() {
     return this.chain[this.chain.length - 1]
-  }
-
-  chainIsValid () {
-    for (let i = 0; i < this.chain.length; i++) {
-      if (this.chain[i].hash !== this.chain[i].getHash()) return false
-      if (i > 0 && this.chain[i].prevHash !== this.chain[i - 1].hash) { return false }
-    }
-    return true
   }
 }
 

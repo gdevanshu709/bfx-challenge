@@ -4,6 +4,14 @@ const { processPendingOrders } = require('./block')
 const { Order } = require('../blockchain/models/order')
 const OrdersList = require('../blockchain/models/ordersList')
 
+/**
+ * function to add/process `Order`
+ *
+ * @date 2020-01-29
+ * @param {Handler} handler
+ * @param {Object} payload request to add order in the `MemPool` for further processing
+ * @returns {Response}
+ */
 async function add(handler, payload) {
   const order = new Order(payload.client_id, payload.price_usd, payload.amount_btc)
 
@@ -22,6 +30,13 @@ async function add(handler, payload) {
   })
 }
 
+/**
+ * Utility to list all Pending `Orders` list
+ *
+ * @date 2020-01-29
+ * @param {Handler} handler
+ * @returns {Response}
+ */
 async function list(handler) {
   return handler.reply(null, OrdersList.list())
 }
