@@ -1,0 +1,50 @@
+version: "3.5"
+
+services:
+  grape-01:
+    build: .
+    command:
+      [
+        "sh",
+        "-c",
+        "grape --dp 20001 --aph 30001 --bn '127.0.0.1:20002,127.0.0.1:20003'",
+      ]
+    environment:
+      DEBUG: "*"
+    restart: always
+    network_mode: host
+    ports:
+      - 20001:20001
+      - 30001:30001
+
+  grape-02:
+    build: .
+    command:
+      [
+        "sh",
+        "-c",
+        "grape --dp 20002 --aph 40001 --bn '127.0.0.1:20001,127.0.0.1:20003'",
+      ]
+    environment:
+      DEBUG: "*"
+    restart: always
+    network_mode: host
+    ports:
+      - 20002:20002
+      - 40001:40001
+
+  grape-03:
+    build: .
+    command:
+      [
+        "sh",
+        "-c",
+        "grape --dp 20003 --aph 50001 --bn '127.0.0.1:20001,127.0.0.1:20002'",
+      ]
+    environment:
+      DEBUG: "*"
+    restart: always
+    network_mode: host
+    ports:
+      - 20003:20003
+      - 50001:50001
