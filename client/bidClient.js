@@ -4,7 +4,7 @@ const Link = require('grenache-nodejs-link')
 const config = require('./config/app')
 
 const link = new Link({
-  grape: config.get('link.grape.aph.address')
+  grape: config.get('grape_address')
 })
 
 link.start()
@@ -15,7 +15,7 @@ client.init()
 /**
  * Main function of bid client.
  * Queries all orders with pending state
- * Creates a bid for each pending order
+ * Creates a bid for each pending order that was created by some other client
  *
  * @date 2020-01-29
  * @returns {any}
@@ -30,7 +30,9 @@ async function start() {
       const orders = await getPendingOrders()
 
       for (let order of orders) {
-        if (_.indexOf(orderIds, order.id) === -1) {
+        // only creates a bid for order that was created by some other client
+        if (_.indexOf(orderIds, order.id) === -1 && order.client_id !== config.get('app.name')) {
+
           const bid = {
             client_id: config.get('app.name'),
             price_usd: order.price_usd,
@@ -38,7 +40,7 @@ async function start() {
           }
 
           const response = await sendOrder(bid)
-          console.log('Order has been sent to worker', response.order_id)
+          console.log(`bid has been sent against order [${order.id}] `, response.order_id)
           orderIds.push(order.id)
         }
       }
@@ -60,6 +62,12 @@ async function sleep(duration) {
   return new Promise(resolve => setTimeout(resolve, duration))
 }
 
+/**
+ * Utility function to fetch list all pending transactions from Worker
+ *
+ * @date 2020-01-29
+ * @returns {Promise<Array<Orders>>} returns list of orders
+ */
 async function getPendingOrders() {
   return new Promise((resolve, reject) => {
     client.request(config.get('worker.name'), { type: config.get('offer.list.type') }, { timeout: 10000 }, (err, data) => {
