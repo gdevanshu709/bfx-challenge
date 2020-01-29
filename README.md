@@ -42,6 +42,12 @@ Order matching is currently not implemented because of a lack of time. 
 6. Proper Logger
 
 
+#### Requirements:
+
+- OS: Linux
+- Docker
+- Docker-compose
+
 ### Setup & Run the project:
 
 Use dockerfile and docker-compose to run the grape server, blockchain component with grape worker, grape client.
@@ -59,6 +65,8 @@ Use dockerfile and docker-compose to run the grape server, blockchain component 
 - Client:
 
         docker-compose up --build client-01 client-02
+
+In the terminal on which we are running clients, we can see that one client is submitting the ASK orders and another one sending in the bids. Since the order matching engine is missing the orders are not getting settled.
 
 
 #### Available scripts
